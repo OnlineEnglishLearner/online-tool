@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <textarea id="t" rows="10" cols="100"> </textarea> <br />
+    <input type="button" value="Submit" onclick="" />
+
+    <script>
+
+        window.onload = function () {
+
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+                    console.log("returned successfully");
+                    var res = JSON.parse(xhttp.responseText);
+                    console.log(res);
+                }
+            }
+
+            xhttp.open("POST", "api/Project/Testing", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            xhttp.send(JSON.stringify("hi"));
+        };
+
+    </script>
+</body>
+</html>
