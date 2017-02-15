@@ -3,20 +3,30 @@
 <head>
     <title></title>
     <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    Title <br />
-    <input type="text" id="title"/> <br />
-    Content <br />
-    <textarea id="content" rows="10" cols="100"> </textarea> <br />
-    <input type="button" value="Add Passage" onclick="addPassage()" />
-    <input type="button" value="Get Passage" onclick="getPassage()" />
-    <p id="returnValue"></p> <br />
+
+    <div class="wrapper">
+        <div id="allContent" style="display:none;">
+            Title <br />
+            <input type="text" id="title" /> <br />
+            Content <br />
+            <textarea id="content" rows="10" cols="100"> </textarea> <br />
+            <input type="button" value="Add Passage" onclick="addPassage()" />
+            <input type="button" value="Get Passage" onclick="getPassage()" />
+            <p id="returnValue"></p> <br />
+        </div>
+        <div id="loader" class="loader"></div>
+    </div>
+
 
 
     <script>
 
         window.onload = function () {
+
+            showLoader();
 
             var xhttp = new XMLHttpRequest();
 
@@ -26,6 +36,7 @@
                     console.log("returned successfully");
                     var res = JSON.parse(xhttp.responseText);
                     console.log(res);
+                    hideLoader();
                 }
             }
 
@@ -51,6 +62,9 @@
         };
 
         function getPassage() {
+
+            showLoader();
+
             var xhttp = new XMLHttpRequest();
 
             xhttp.onreadystatechange = function () {
@@ -60,6 +74,7 @@
                     var res = JSON.parse(xhttp.responseText);
                     console.log(res);
                     document.getElementById("returnValue").innerText = res;
+                    hideLoader();
                 }
             }
 
@@ -71,9 +86,18 @@
         function passageModel() {
             var titleVal = document.getElementById("title").value;
             var contentVal = document.getElementById("content").value;
-            return { title: titleVal, content: contentVal};
-        }
+            return { title: titleVal, content: contentVal };
+        };
 
+        function showLoader() {
+            document.getElementById("loader").style.display = "block";
+            document.getElementById("allContent").style.display = "none";
+        };
+
+        function hideLoader() {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("allContent").style.display = "block";
+        };
     </script>
 </body>
 </html>
