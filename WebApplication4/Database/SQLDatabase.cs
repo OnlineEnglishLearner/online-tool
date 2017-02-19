@@ -2,6 +2,11 @@
 using System;
 using System.Data;
 using System.Diagnostics;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
 
 public class SQLDatabase
 {
@@ -21,6 +26,9 @@ public class SQLDatabase
             {
 
                 connection.Open();
+
+                title = title.Replace("'", "\\'");
+                content = content.Replace("'", "\\'");
 
                 query = "INSERT INTO Passages (title, content) VALUES ('" + title + "', '" + content + "')";
                 cmd = new MySqlCommand(query, connection);
@@ -87,49 +95,26 @@ public class SQLDatabase
 
         return contentString;
     }
-
-    public static string[] getNames()
+    
+    public static async Task<String> tryMSCS()
     {
-        try {
-            if (connection.State == ConnectionState.Closed) {
+         var client = new HttpClient();
 
-                connection.Open();
-                
-                int nameCount = 0;
-                query = "SELECT COUNT(Name) FROM Users";
-                cmd = new MySqlCommand(query, connection);
+        // Request headers
+        client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", Credentials.SubscriptionKey);
+        var uri = "https://westus.api.cognitive.microsoft.com/linguistics/v1.0/analyze";
 
-                object result = cmd.ExecuteScalar();
+        // Request body
+        string analyzeText = "I am happy.";
+        byte[] byteData = Encoding.UTF8.GetBytes("{ \"language\" : \"en\", \"analyzerIds\" : [\"4fa79af1-f22c-408d-98bb-b7d7aeef7f04\"], \"text\" : \"" + analyzeText + "\"}");
 
-                if (result != null)
-                    nameCount = Convert.ToInt32(result);
-                
-                returnString = new string[nameCount];
-
-                query = "SELECT Name FROM Users ORDER BY Name ASC";
-                cmd = new MySqlCommand(query, connection);
-
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-
-                int index = 0;
-
-                while (dataReader.Read())
-                    returnString[index++] = "" + dataReader[0];
-                
-                dataReader.Close();
-            }
-        }
-        catch (Exception e)
+        using (var content = new ByteArrayContent(byteData))
         {
-            Debug.WriteLine("Error: {0}", e.ToString());
-            returnString = null;
-        }
-        finally
-        {
-            if (connection != null)
-                connection.Close();
-        }
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var response = await client.PostAsync(uri, content);
+            var contents = await response.Content.ReadAsStringAsync();
 
-        return returnString;
+            return contents;
+        }
     }
 }

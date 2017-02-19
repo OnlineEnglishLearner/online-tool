@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+    <div class="wrapper">
+        <div id="allContent" style="display:none;">
+<!--        Title <br />
+            <input type="text" id="title" /> <br />
+            Content <br />
+            <textarea id="content" rows="10" cols="100"> </textarea> <br />
+            <input type="button" value="Add Passage" onclick="addPassage()" />
+            <input type="button" value="Get Passage" onclick="getPassage()" /> <br />
+-->
+            Example response for:<br />
+            "I am pretty." <br />
+            <input type="button" value="Log Example" onclick="logExample()" />
+            <p id="returnValue"></p> <br />
+        </div>
+        <div id="loader" class="loader"></div>
+    </div>
+
+
+
+    <script>
+
+        window.onload = function () {
+            hideLoader();
+            apiTrigger();
+        };
+
+        function addPassage() {
+
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    console.log("addpassage returned successfully");
+                }
+            }
+
+            xhttp.open("POST", "api/Project/AddPassage", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            console.log("Adding: " + passageModel());
+            xhttp.send(JSON.stringify(passageModel()));
+        };
+
+        function getPassage() {
+
+            showLoader();
+
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+                    console.log("getpassage returned successfully");
+                    var res = JSON.parse(xhttp.responseText);
+                    console.log(res);
+                    document.getElementById("returnValue").innerText = res;
+                    hideLoader();
+                }
+            }
+
+            xhttp.open("POST", "api/Project/GetPassage", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            xhttp.send(JSON.stringify(document.getElementById("title").value ));
+        };
+
+        function passageModel() {
+            var titleVal = document.getElementById("title").value;
+            var contentVal = document.getElementById("content").value;
+            return { title: titleVal, content: contentVal };
+        };
+
+        function showLoader() {
+            document.getElementById("loader").style.display = "block";
+            document.getElementById("allContent").style.display = "none";
+        };
+
+        function hideLoader() {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("allContent").style.display = "block";
+        };
+
+        function logExample() {
+            console.log(modifiedSentence);
+        };
+
+        var exampleSentence = "I am happy.";
+
+        var obj1 = { Word: "I", POS: "Noun", SyllableIndices: [] };
+        var obj2 = { Word: "am", POS: "Verb", SyllableIndices: [] };
+        var obj3 = { Word: "happy.", POS: "Adjective", SyllableIndices: [3] }; // hap·py   <-- syllable separator is the 3th index in the syllabified version
+        
+        var modifiedSentence = [obj1, obj2, obj3];
+
+        function apiTrigger() {
+
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+                    console.log("apitrigger returned successfully");
+                    var res = JSON.parse(xhttp.responseText);
+                    console.log(res);
+                }
+            }
+
+            xhttp.open("POST", "api/Project/TriggerAPI", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            xhttp.send(1); //JSON.stringify(document.getElementById("title").value));
+        };
+
+    </script>
+</body>
+</html>

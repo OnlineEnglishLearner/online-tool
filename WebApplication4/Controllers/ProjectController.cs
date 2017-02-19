@@ -1,17 +1,13 @@
-﻿using System.Web.Http;
+﻿using System.Threading.Tasks;
+using System.Web.Http;
 
 public class ProjectController : ApiController
 {
-    [ActionName("Testing")]
-    public string[] Testing([FromBody] string input)
-    {
-        return SQLDatabase.getNames();
-    }
-
     [ActionName("AddPassage")]
-    public void AddPassage([FromBody] PassageModel pmodel)
+    public int AddPassage([FromBody] PassageModel pmodel)
     {
         SQLDatabase.addPassage(pmodel.title, pmodel.content);
+        return 0;
     }
 
     [HttpPost]
@@ -19,5 +15,12 @@ public class ProjectController : ApiController
     public string GetPassage([FromBody] string title)
     {
         return SQLDatabase.getPassage(title);
+    }
+
+    [HttpPost]
+    [ActionName("TriggerAPI")]
+    public async Task<string> GetPassage([FromBody] int i)
+    {
+        return await SQLDatabase.tryMSCS();
     }
 }
