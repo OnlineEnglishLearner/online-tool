@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="../CSS/styles.css">
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../JS/teacher.js"></script>
+
+    <title>ELOT</title>
+  </head>
+  <body>
+    <!-- header -->
+    <div class="col-md-3 col-md-offset-1 header-container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1 title">
+          <span>English Learner's<br> Online Tool</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1 steps selected">
+          <span>1. Input Passage</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1 steps">
+          <span>2. Verify</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1 steps">
+          <span>3. Create Link</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- body -->
+    <div class="col-md-7 main-container">
+
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1 teacher-input-container">
+          <textarea class="teacher-input" placeholder="Passage to be used.."></textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1 process-btn-container">
+
+            <div class="checkboxFive">
+              <input type="checkbox" value="1" id="checkboxFiveInput" name="" />
+              <label for="checkboxFiveInput"></label>
+            </div>
+
+            <span class="checkboxLabel"><strong><em>Use the Microsoft Parts of Speech recomendations as a starting point.</em></strong></span>
+
+            <button type="button" name="button" class="btn btn-default process-btn"><strong>Start</strong></button>
+
+
+
+        </div>
+      </div>
+
+    <!-- close main container -->
+    </div>
+
+    <div class="row col-md-12 footer">
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="introModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">English Learner's Online Tool</h4>
+          </div>
+          <div class="modal-body">
+            <p>This tool will aid in your instruction of parts of speech. The first step will be for you to put your
+            desired passage in this text box. </p><br>
+            <p>Note: You also have the option to use Microsoft's recomendations
+            for parts of speech. If you choose to do so, we will populate your passage with these suggestions, and
+            then give you the option to manually modify any errors or inconsistencies.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+  </body>
+</html>
