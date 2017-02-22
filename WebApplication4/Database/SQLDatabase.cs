@@ -96,7 +96,7 @@ public class SQLDatabase
         return contentString;
     }
     
-    public static async Task<String> tryMSCS()
+    public static async Task<String> tryMSCS(string text)
     {
          var client = new HttpClient();
 
@@ -105,7 +105,7 @@ public class SQLDatabase
         var uri = "https://westus.api.cognitive.microsoft.com/linguistics/v1.0/analyze";
 
         // Request body
-        string analyzeText = "I am happy.";
+        string analyzeText = text; //"I am happy.";
         byte[] byteData = Encoding.UTF8.GetBytes("{ \"language\" : \"en\", \"analyzerIds\" : [\"4fa79af1-f22c-408d-98bb-b7d7aeef7f04\"], \"text\" : \"" + analyzeText + "\"}");
 
         using (var content = new ByteArrayContent(byteData))

@@ -10,17 +10,17 @@ public class ProjectController : ApiController
         return 0;
     }
 
-    [HttpPost]
+/*    [HttpPost]
     [ActionName("GetPassage")]
     public string GetPassage([FromBody] string title)
     {
         return SQLDatabase.getPassage(title);
     }
-
+*/
     [HttpPost]
     [ActionName("TriggerAPI")]
-    public async Task<string> GetPassage([FromBody] int i)
+    public async Task<string> GetPassage([FromBody] string text)
     {
-        return await SQLDatabase.tryMSCS();
+        return await SQLDatabase.tryMSCS(text);
     }
 }

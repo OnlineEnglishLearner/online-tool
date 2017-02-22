@@ -9,16 +9,12 @@
 
     <div class="wrapper">
         <div id="allContent" style="display:none;">
-<!--        Title <br />
+            Title <br />
             <input type="text" id="title" /> <br />
             Content <br />
             <textarea id="content" rows="10" cols="100"> </textarea> <br />
-            <input type="button" value="Add Passage" onclick="addPassage()" />
-            <input type="button" value="Get Passage" onclick="getPassage()" /> <br />
--->
-            Example response for:<br />
-            "I am pretty." <br />
-            <input type="button" value="Log Example" onclick="logExample()" />
+            <input type="button" value="Get Passage" onclick="apiTrigger()" /> <br />
+
             <p id="returnValue"></p> <br />
         </div>
         <div id="loader" class="loader"></div>
@@ -30,7 +26,6 @@
 
         window.onload = function () {
             hideLoader();
-            apiTrigger();
         };
 
         function addPassage() {
@@ -101,6 +96,8 @@
 
         function apiTrigger() {
 
+            showLoader();
+
             var xhttp = new XMLHttpRequest();
 
             xhttp.onreadystatechange = function () {
@@ -109,12 +106,16 @@
                     console.log("apitrigger returned successfully");
                     var res = JSON.parse(xhttp.responseText);
                     console.log(res);
+                    console.log(res[0].result);
+
+                    document.getElementById("returnValue").innerText = res;
+                    hideLoader();
                 }
             }
 
             xhttp.open("POST", "api/Project/TriggerAPI", true);
             xhttp.setRequestHeader("Content-type", "application/json");
-            xhttp.send(1); //JSON.stringify(document.getElementById("title").value));
+            xhttp.send(JSON.stringify(document.getElementById("content").value));
         };
 
     </script>
