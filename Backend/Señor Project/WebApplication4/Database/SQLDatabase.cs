@@ -97,7 +97,7 @@ public class SQLDatabase
         return contentString;
     }
     
-    public static async Task<Word[][]> tryMSCS(string text)
+    public static async Task<ReturnModel> tryMSCS(string text)
     {
         var client = new HttpClient();
 
@@ -107,7 +107,7 @@ public class SQLDatabase
 
         // Request body
         string analyzeText = text;
-        byte[] byteData = Encoding.UTF8.GetBytes("{ \"language\" : \"en\", \"analyzerIds\" : [\"4fa79af1-f22c-408d-98bb-b7d7aeef7f04\"], \"text\" : \"" + analyzeText + "\"}");
+        byte[] byteData = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(MSCG.GenerateRequest(analyzeText))); // "{ \"language\" : \"en\", \"analyzerIds\" : [\"4fa79af1-f22c-408d-98bb-b7d7aeef7f04\"], \"text\" : \"" + analyzeText + "\"}");
         
         using (var content = new ByteArrayContent(byteData))
         {

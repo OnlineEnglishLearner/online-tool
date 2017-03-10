@@ -3,7 +3,7 @@
 [DataContract]
 public class Word
 {
-    public Word(string value, string pos, int[] syllableIndices, string syllabifiedVersion)
+    public Word(string value, string pos, int syllableIndices, string syllabifiedVersion)
     {
         Value = value;
         POS = pos;
@@ -21,5 +21,5 @@ public class Word
     public string SyllabifiedVersion { get; set; }
 
     [DataMember]
-    public int[] SyllableIndices { get; set; }
+    public int SyllableIndices { get; set; }
 }
