@@ -25,15 +25,17 @@ body {
 .header-container .row {
   margin-bottom: 1.5em;
 }
-.header-container .title {
+.title {
   font-size: 30px;
   color: rgb(255, 255, 255);
   padding: 0;
 
-  height: 3em;
   margin-bottom: 1em;
 
   border-bottom: 3px solid #3e3e3e;
+}
+.header-container .title {
+  height: 3em;
 }
 .header-container .title span{
 }
@@ -59,11 +61,11 @@ body {
   width: 100%;
 }
 
-.teacher-input-container {
+.input-container {
   height: 40em;
   padding: 0;
 }
-.teacher-input-container.small {
+.input-container.small {
   height: 30em;
   padding: 0;
 }
@@ -84,8 +86,8 @@ body {
 .teacher-input.smaller {
   max-width: 50%;
 }
-.teacher-input:hover,
-.teacher-input:focus {
+.teacher .teacher-input:hover,
+.teacher .teacher-input:focus {
   border: 1px solid rgba(255, 255, 255, 1);
 }
 ::-webkit-input-placeholder {
