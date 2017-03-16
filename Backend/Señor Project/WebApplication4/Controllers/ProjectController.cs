@@ -5,7 +5,7 @@ public class ProjectController : ApiController
 {
     [HttpPost]
     [ActionName("TriggerAPI")]
-    public async Task<Word[][]> GetPassage([FromBody] string text)
+    public async Task<ReturnModel> GetPassage([FromBody] string text)
     {
         return await SQLDatabase.tryMSCS(text);
     }
