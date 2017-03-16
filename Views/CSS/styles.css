@@ -208,3 +208,15 @@ input[type=checkbox] {
   background: #0048d0;
   color: #f7f7f7;
 }
+
+.Noun {
+    color: #871c97;
+}
+
+.Adjective {
+    color: #06706c;
+}
+
+.Verb {
+    color: #a90005;
+}
