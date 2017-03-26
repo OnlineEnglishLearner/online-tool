@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 public class SQLDatabase
 {
-    static string cname = "host=db4free.net; user=" + Credentials.DBUser + "; password=" + Credentials.DBPass + "; database=senorproject; Connection Timeout=30";
+    static string cname = "host=db4free.net; user=" + Credentials.DBUser + "; password=" + Credentials.DBPass + "; database=senorproject; Connection Timeout=60";
     static string query;
     static MySqlCommand cmd;
 
@@ -19,7 +19,7 @@ public class SQLDatabase
     static string[] returnString;
     static string contentString;
     
-    public static void addPassage(string title, string content)
+    public static bool addPassage(string title, string content)
     {
         try
         {
@@ -29,11 +29,30 @@ public class SQLDatabase
                 connection.Open();
 
                 title = title.Replace("'", "\\'");
+
+
+                int passageCount = 0;
+                query = "SELECT COUNT(*) FROM Passages WHERE title = '" + title + "'";
+                cmd = new MySqlCommand(query, connection);
+
+                object result = cmd.ExecuteScalar();
+
+                if (result != null)
+                    passageCount = Convert.ToInt32(result);
+                else
+                    return false;
+
+                // title already taken
+                if (passageCount > 0)
+                    return false;
+
                 content = content.Replace("'", "\\'");
 
                 query = "INSERT INTO Passages (title, content) VALUES ('" + title + "', '" + content + "')";
                 cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
+
+                return true;
             }
         }
         catch (Exception e)
@@ -46,6 +65,8 @@ public class SQLDatabase
             if (connection != null)
                 connection.Close();
         }
+
+        return false;
     }
 
     public static string getPassage(string title)
