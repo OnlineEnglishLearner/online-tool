@@ -207,7 +207,7 @@ input[type=checkbox] {
   color: #f7f7f7;
 }
 .nav-pills>li.active>a.adj {
-  background: #0048d0;
+  background: #00b7d0;
   color: #f7f7f7;
 }
 
@@ -216,7 +216,7 @@ input[type=checkbox] {
 }
 
 .style.Adjective {
-    color: #0048d0;
+    color: #00b7d0;
 }
 
 .style.Verb {

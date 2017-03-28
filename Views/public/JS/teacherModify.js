@@ -1,3 +1,7 @@
+// TODO create an array that will hold all the changes a teacher makes.
+// Every change will be pushed to the end of the array with the index of the
+// word and what the change was (ie, removed verb. ie, added noun)
+
 $( document ).ready(function(){
 
   setPassageText();
@@ -10,7 +14,21 @@ $( document ).ready(function(){
     $('.word').removeClass('style');
     $('.word.' + $(this).children('a').html() ).addClass('style');
   });
+
+  $('.word').click(function(){
+    var curActive = $('.nav-pills>li.active').children('a').html();
+    if($(this).hasClass(curActive)){
+      $(this).removeClass();
+      $(this).addClass('word');
+    } else {
+      $(this).removeClass();
+      $(this).addClass('word style ' + curActive);
+    }
+
+  });
 });
+
+
 
 function setPassageText(){
   if(readCookie('useMS') == 'true'){
