@@ -25,9 +25,6 @@ function getMSSuggestions(inputText){
   return exampleResult();
 }
 
-
-var exampleCookie = {'useMS':true,'inputText':'Hello everyone, my name is Alexander'};
-
 function createCookie(name,value,days) {
 	if (days) {
 		var date = new Date();
