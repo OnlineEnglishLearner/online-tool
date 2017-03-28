@@ -86,8 +86,8 @@ body {
 .teacher-input.smaller {
   max-width: 50%;
 }
-.teacher .teacher-input:hover,
-.teacher .teacher-input:focus {
+.hover.teacher-input:hover,
+.hover.teacher-input:focus {
   border: 1px solid rgba(255, 255, 255, 1);
 }
 ::-webkit-input-placeholder {
@@ -117,6 +117,7 @@ body {
   margin-left: .5em;
   margin-right: 1.5em;
   color: #dddddd;
+	cursor: pointer;
 }
 
 
@@ -128,6 +129,7 @@ input[type=checkbox] {
 	position: relative;
   flex-grow: 0;
   min-width: 30px;
+  margin-left: 5px;
 }
 .checkboxFive label {
 	cursor: pointer;
@@ -157,7 +159,7 @@ input[type=checkbox] {
 	transform: rotate(-55deg);
 }
 .checkboxFive label:hover::after {
-	opacity: 0.5;
+	/*opacity: 0.2;*/
 }
 .checkboxFive input[type=checkbox]:checked + label:after {
 	opacity: 1;
@@ -209,14 +211,14 @@ input[type=checkbox] {
   color: #f7f7f7;
 }
 
-.Noun {
-    color: #871c97;
+.style.Noun {
+    color: #5cd200;
 }
 
-.Adjective {
-    color: #06706c;
+.style.Adjective {
+    color: #0048d0;
 }
 
-.Verb {
-    color: #a90005;
+.style.Verb {
+    color: #ff7d3d;
 }
