@@ -12,11 +12,12 @@ $( document ).ready(function(){
     $(this).removeClass();
     $(this).addClass('active');
     $('.word').removeClass('style');
-    $('.word.' + $(this).children('a').html() ).addClass('style');
+    $('.word.' + $(this).children('a').attr('data-pos')).addClass('style');
   });
 
   $('.word').click(function(){
-    var curActive = $('.nav-pills>li.active').children('a').html();
+      var curActive = $('.nav-pills>li.active').children('a').attr('data-pos');
+      console.log(curActive);
     if($(this).hasClass(curActive)){
       $(this).removeClass();
       $(this).addClass('word');
@@ -77,12 +78,12 @@ function wordObj(pos, syllabifiedVersion, syllableIndices, value) {
 
 function exampleResult() {
     var wordObjs = [];
-    wordObjs.push(wordObj('Unknown', 'Hel∙lo', 8, 'Hello', 0));
-    wordObjs.push(wordObj('Noun', '"e∙ver∙y∙one,"', 162, 'everyone,', 1));
-    wordObjs.push(wordObj('Unknown', 'my', 0, 'my', 2));
-    wordObjs.push(wordObj('Noun', 'name', 0, 'name', 3));
-    wordObjs.push(wordObj('Verb', 'is', 0, 'is', 4));
-    wordObjs.push(wordObj('Noun', 'Al∙ex∙an∙der.', 292, 'Alexander.', 5));
+    wordObjs.push(wordObj('unknown', 'Hel∙lo', 8, 'Hello', 0));
+    wordObjs.push(wordObj('noun', '"e∙ver∙y∙one,"', 162, 'everyone,', 1));
+    wordObjs.push(wordObj('unknown', 'my', 0, 'my', 2));
+    wordObjs.push(wordObj('noun', 'name', 0, 'name', 3));
+    wordObjs.push(wordObj('verb', 'is', 0, 'is', 4));
+    wordObjs.push(wordObj('noun', 'Al∙ex∙an∙der.', 292, 'Alexander.', 5));
 
     return { Content: wordObjs, HTML: exampleHTML };
 };
