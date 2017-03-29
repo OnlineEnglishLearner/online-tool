@@ -211,14 +211,14 @@ input[type=checkbox] {
   color: #f7f7f7;
 }
 
-.style.Noun {
+.style.noun {
     color: #5cd200;
 }
 
-.style.Adjective {
+.style.adjective {
     color: #00b7d0;
 }
 
-.style.Verb {
+.style.verb {
     color: #ff7d3d;
 }
