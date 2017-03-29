@@ -16,20 +16,20 @@ $( document ).ready(function(){
   });
 
   $('.word').click(function(){
-      var curActive = $('.nav-pills>li.active').children('a').attr('data-pos');
-      console.log(curActive);
+    var curActive = $('.nav-pills>li.active').children('a').attr('data-pos');
     if($(this).hasClass(curActive)){
       $(this).removeClass();
       $(this).addClass('word');
+      teacherChanges.push({id: $(this).attr('id'), action: 'remove', pos: curActive});
     } else {
       $(this).removeClass();
       $(this).addClass('word style ' + curActive);
+      teacherChanges.push({id: $(this).attr('id'), action: 'add', pos: curActive});
     }
-
   });
 });
 
-
+var teacherChanges = [];
 
 function setPassageText(){
   if(readCookie('useMS') == 'true'){
@@ -41,6 +41,7 @@ function setPassageText(){
 }
 
 function getMSSuggestions(inputText){
+  // TODO actually make a call to the server with the input text to get the MS Suggestions
   return exampleResult();
 }
 
