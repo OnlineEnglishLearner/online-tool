@@ -77,16 +77,16 @@ function wordObj(pos, syllabifiedVersion, syllableIndices, value) {
 
 function exampleResult() {
     var wordObjs = [];
-    wordObjs.push(wordObj('Unknown', 'Hel∙lo', 8, 'Hello'));
-    wordObjs.push(wordObj('Noun', '"e∙ver∙y∙one,"', 162, 'everyone,'));
-    wordObjs.push(wordObj('Unknown', 'my', 0, 'my'));
-    wordObjs.push(wordObj('Noun', 'name', 0, 'name'));
-    wordObjs.push(wordObj('Verb', 'is', 0, 'is'));
-    wordObjs.push(wordObj('Noun', 'Al∙ex∙an∙der.', 292, 'Alexander.'));
+    wordObjs.push(wordObj('Unknown', 'Hel∙lo', 8, 'Hello', 0));
+    wordObjs.push(wordObj('Noun', '"e∙ver∙y∙one,"', 162, 'everyone,', 1));
+    wordObjs.push(wordObj('Unknown', 'my', 0, 'my', 2));
+    wordObjs.push(wordObj('Noun', 'name', 0, 'name', 3));
+    wordObjs.push(wordObj('Verb', 'is', 0, 'is', 4));
+    wordObjs.push(wordObj('Noun', 'Al∙ex∙an∙der.', 292, 'Alexander.', 5));
 
     return { Content: wordObjs, HTML: exampleHTML };
 };
-var exampleHTML = '<span id="0" class="word Unknown">Hello</span>&nbsp<span class="word Noun">everyone,</span>&nbsp<span class="word Unknown">my</span>&nbsp<span class="word Noun">name</span>&nbsp<span class="word Verb">is</span>&nbsp<span class="word Noun">Alexander.</span>&nbsp';
+var exampleHTML = '<span id="0" class="word unknown">Hello</span> <span id="1" class="word noun">everyone,</span> <span id="2" class="word unknown">my</span> <span id="3" class="word noun">name</span> <span id="4" class="word verb">is</span> <span id="5" class="word noun">Alexander.</span> ';
 
 
 function demask(mask) {

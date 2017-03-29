@@ -13,6 +13,7 @@ public class MSCG
 
         string[] originalSentences = text.Split(' ');
         int originIndex = 0;
+        int wordIndex = 0;
 
         Word[][] postags = new Word[sentences.Length][];
         List<Word> list;
@@ -25,7 +26,7 @@ public class MSCG
             {
                 if (!isMSCGSymbol(j))
                 {
-                    list.Add(new Word(originalSentences[originIndex], POSType(j), syllableIndices(originalSentences[originIndex]), Syllable.Syllabify(originalSentences[originIndex++])));
+                    list.Add(new Word(originalSentences[originIndex], POSType(j), syllableIndices(originalSentences[originIndex]), Syllable.Syllabify(originalSentences[originIndex++]), wordIndex++));
                 }
             }
 
@@ -89,15 +90,11 @@ public class MSCG
     public static string GenerateHTML(Word[][] text)
     {
         StringBuilder html = new StringBuilder();
-        html.Append("<p>");
-
+       
         foreach(Word[] sentence in text)
             foreach(Word word in sentence)
-            {
-                html.Append("<span class=\"" + word.POS + "\">" + word.Value + "</span>&nbsp");
-            }
-
-        html.Append("</p>");
+                html.Append("<span id=\"" + word.Index + "\" class=\"word " + word.POS.ToLower() + "\">" + word.Value + "</span> ");
+       
         return html.ToString();
     }
 
