@@ -93,6 +93,10 @@ body {
 ::-webkit-input-placeholder {
   color: #247fd1;
 }
+.teacher-input.no-text-change {
+  background: #4f6575;
+
+}
 
 .process-btn-container {
   padding: 0;
