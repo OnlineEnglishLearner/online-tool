@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using Newtonsoft.Json;
 
 public class SQLDatabase
@@ -89,6 +88,7 @@ public class SQLDatabase
 
                 if (passageCount == 0)
                     contentString = "Title does not exit in the database";
+
                 else
                 {
                     query = "SELECT content FROM Passages WHERE title = '" + title + "'";

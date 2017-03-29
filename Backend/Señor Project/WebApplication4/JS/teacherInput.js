@@ -8,7 +8,7 @@ $(document).ready(function(){
       console.log("firing");
   
       $.ajax({
-          url: "api/Project/TriggerAPI",
+          url: "api/Project/Suggestions",
           beforeSend: function (xhrObj) {
               // Request headers
               xhrObj.setRequestHeader("Content-Type", "application/json");
