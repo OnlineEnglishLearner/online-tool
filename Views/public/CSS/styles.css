@@ -216,7 +216,7 @@ input[type=checkbox] {
 }
 
 .word {
-  /*cursor: url(../images/paw.png) 8 8, pointer;*/
+  /*cursor: url(../images/ruler.png) 16 12, pointer;*/
   cursor: pointer;
 }
 
