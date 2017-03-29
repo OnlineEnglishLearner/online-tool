@@ -211,6 +211,11 @@ input[type=checkbox] {
   color: #f7f7f7;
 }
 
+.word {
+  /*cursor: url(../images/paw.png) 8 8, pointer;*/
+  cursor: pointer;
+}
+
 .style.Noun {
     color: #5cd200;
 }
