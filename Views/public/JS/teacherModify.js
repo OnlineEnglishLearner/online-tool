@@ -12,11 +12,12 @@ $( document ).ready(function(){
     $(this).removeClass();
     $(this).addClass('active');
     $('.word').removeClass('style');
-    $('.word.' + $(this).children('a').html() ).addClass('style');
+    $('.word.' + $(this).children('a').attr('data-pos')).addClass('style');
   });
 
   $('.word').click(function(){
-      var curActive = $('.nav-pills>li.active').children('a');
+      var curActive = $('.nav-pills>li.active').children('a').attr('data-pos');
+      console.log(curActive);
     if($(this).hasClass(curActive)){
       $(this).removeClass();
       $(this).addClass('word');
