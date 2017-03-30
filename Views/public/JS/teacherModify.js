@@ -3,6 +3,9 @@
 // word and what the change was (ie, removed verb. ie, added noun)
 
 $( document ).ready(function(){
+        
+  $('#teacher-modify-box').replaceWith('<div class="loader" id="loader"></div>');
+  $('#teacher-title-box').replaceWith('<div id="title-holder"></div>');
 
   setPassageText();
 
@@ -31,10 +34,18 @@ $( document ).ready(function(){
 
 var teacherChanges = [];
 
+function removeLoader() {
+    $('#loader').replaceWith('<p class="teacher-input" id="teacher-modify-box"></p>');
+    $('#title-holder').replaceWith('<input type="text" placeholder="Assignment Title" class="hover teacher-input smaller">');
+};
+
 function setPassageText(){
-  if(readCookie('useMS') == 'true'){
-    var MSSug = getMSSuggestions(readCookie('inputText'));
-    $('#teacher-modify-box').html(MSSug.HTML);
+    if (readCookie('useMS') == 'true') {
+        setTimeout(function () {
+            removeLoader();
+            var MSSug = getMSSuggestions(readCookie('inputText'));
+            $('#teacher-modify-box').html(MSSug.HTML);
+        }, 2000);
   } else {
     $('#teacher-modify-box').html(readCookie('inputText'));
   }
