@@ -6,6 +6,5 @@ $( document ).ready(function(){
     $(this).addClass('active');
   });
 
-  var h = window.location.hash;
-  console.log(h);
+  var passageTitle = window.location.hash.substring(1);
 });
