@@ -94,22 +94,21 @@ function clickFunctionality() {
 
   $('#linkButton').click(function () {
       console.log(teacherChanges);
-      // check if title is available
+      passageTitle = $('#teacher-title-box').val();
+      var subRes = {avail: true, link: 'www.google.com'}; // TODO Sahirs specicial sauce. returns link if avialbe, or false if title not availble
 
-      if ($('#teacher-title-box').val() == '') {
+      if (passageTitle == '') {
         $('#teacher-title-warning').html('Please enter a title for your passage.');
-      } else if (!titleAvailable()){
+      } else if (!subRes.avail){
         $('#teacher-title-warning').html('This title has been taken, please try another.');
       } else {
         $('#teacher-title-warning').html('');
+        // TODO show link to teacher
       }
+
+
   });
 };
-
-function titleAvailable() {
-  // TODO make call to back end to see if title is taken
-  return true;
-}
 
 // sahir's temp functions
 
