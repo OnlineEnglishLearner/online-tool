@@ -3,11 +3,6 @@
 // word and what the change was (ie, removed verb. ie, added noun)
 
 $( document ).ready(function(){
-        
-  $('#teacher-modify-box').replaceWith('<div class="loader" id="loader"></div>');
-  $('#teacher-title-box').replaceWith('<div id="title-holder"></div>');
-
-  setPassageText();
 
   $('.nav-pills>li').click(function(){
     $('.nav-pills>li').removeClass();
@@ -18,18 +13,16 @@ $( document ).ready(function(){
     $('.word.' + $(this).children('a').attr('data-pos')).addClass('style');
   });
 
-  $('.word').click(function(){
-    var curActive = $('.nav-pills>li.active').children('a').attr('data-pos');
-    if($(this).hasClass(curActive)){
-      $(this).removeClass();
-      $(this).addClass('word');
-      teacherChanges.push({id: $(this).attr('id'), action: 'remove', pos: curActive});
-    } else {
-      $(this).removeClass();
-      $(this).addClass('word style ' + curActive);
-      teacherChanges.push({id: $(this).attr('id'), action: 'add', pos: curActive});
-    }
+
+
+  $('#linkButton').click(function () {
+      console.log(teacherChanges);
   });
+
+  $('#teacher-modify-box').replaceWith('<div class="loader" id="loader"></div>');
+  $('#teacher-title-box').replaceWith('<div id="title-holder"></div>');
+
+  setPassageText();
 });
 
 var teacherChanges = [];
@@ -45,16 +38,25 @@ function setPassageText(){
             removeLoader();
             var MSSug = getMSSuggestions(readCookie('inputText'));
             $('#teacher-modify-box').html(MSSug.HTML);
+
+            clickFunctionality();
         }, 2000);
   } else {
-    $('#teacher-modify-box').html(readCookie('inputText'));
+    removeLoader();
+    $('#teacher-modify-box').html(getMSNOSuggestions(readCookie('inputText')).HTML);
+
+    clickFunctionality();
   }
 }
 
 function getMSSuggestions(inputText){
   // TODO actually make a call to the server with the input text to get the MS Suggestions
   return exampleResult();
-}
+};
+
+function getMSNOSuggestions(inputText){
+  return exampleNSResult();
+};
 
 function createCookie(name,value,days) {
 	if (days) {
@@ -64,7 +66,7 @@ function createCookie(name,value,days) {
 	}
 	else var expires = "";
 	document.cookie = name+"="+value+expires+"; path=/";
-}
+};
 
 function readCookie(name) {
 	var nameEQ = name + "=";
@@ -75,12 +77,26 @@ function readCookie(name) {
 		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
 	}
 	return null;
-}
+};
 
 function eraseCookie(name) {
 	createCookie(name,"",-1);
-}
+};
 
+function clickFunctionality() {
+  $('.word').click(function(){
+    var curActive = $('.nav-pills>li.active').children('a').attr('data-pos');
+    if($(this).hasClass(curActive)){
+      $(this).removeClass();
+      $(this).addClass('word');
+      teacherChanges.push({id: $(this).attr('id'), action: 'remove', pos: curActive});
+    } else {
+      $(this).removeClass();
+      $(this).addClass('word style ' + curActive);
+      teacherChanges.push({id: $(this).attr('id'), action: 'add', pos: curActive});
+    }
+  });
+};
 
 // sahir's temp functions
 
@@ -99,8 +115,16 @@ function exampleResult() {
 
     return { Content: wordObjs, HTML: exampleHTML };
 };
-var exampleHTML = '<span id="0" class="word unknown">Hello</span> <span id="1" class="word noun">everyone,</span> <span id="2" class="word unknown">my</span> <span id="3" class="word noun">name</span> <span id="4" class="word verb">is</span> <span id="5" class="word noun">Alexander.</span> ';
 
+// no suggestion
+function exampleNSResult() {
+  var res = exampleResult();
+  res.HTML = exampleNoSuggestionHTML;
+  return res;
+};
+
+var exampleHTML = '<span id="0" class="word unknown">Hello</span> <span id="1" class="word noun">everyone,</span> <span id="2" class="word unknown">my</span> <span id="3" class="word noun">name</span> <span id="4" class="word verb">is</span> <span id="5" class="word noun">Alexander.</span> ';
+var exampleNoSuggestionHTML = '<span id="0" class="word">Hello</span> <span id="1" class="word">everyone,</span> <span id="2" class="word">my</span> <span id="3" class="word">name</span> <span id="4" class="word">is</span> <span id="5" class="word">Alexander.</span>';
 
 function demask(mask) {
     var indices = [];
