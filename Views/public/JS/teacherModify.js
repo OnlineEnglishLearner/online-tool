@@ -14,7 +14,7 @@ var passageTitle = '';
 var teacherChanges = [];
 
 function removeLoader() {
-    $('#loader').replaceWith('<p class="teacher-input" id="teacher-modify-box"></p>');
+    $('#loader').replaceWith('<p class="teacher-input no-text-change" id="teacher-modify-box"></p>');
     $('#title-holder').replaceWith('<input type="text" placeholder="Assignment Title" class="hover teacher-input smaller" id="teacher-title-box">');
 };
 

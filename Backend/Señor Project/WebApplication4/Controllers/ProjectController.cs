@@ -24,4 +24,11 @@ public class ProjectController : ApiController
         return SQLDatabase.addPassage(model.Title, model.Content);
     }
 
+    [HttpPost]
+    [ActionName("ProcessChanges")]
+    public string ProcessChanges([FromBody] ChangeModel model)
+    {
+        MSCG.processChanges(model);
+        return "Title";
+    }
 }

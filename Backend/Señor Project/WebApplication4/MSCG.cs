@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -74,6 +75,11 @@ public class MSCG
         }
 
         return new ReturnModel(postags, GenerateHTML(postags, true));
+    }
+
+    public static void processChanges(ChangeModel model)
+    {
+        return;
     }
 
     private static int syllableIndices(string text)
