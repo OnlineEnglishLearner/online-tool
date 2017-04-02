@@ -10,11 +10,12 @@ $( document ).ready(function(){
   setPassageText();
 });
 
+var passageTitle = '';
 var teacherChanges = [];
 
 function removeLoader() {
     $('#loader').replaceWith('<p class="teacher-input" id="teacher-modify-box"></p>');
-    $('#title-holder').replaceWith('<input type="text" placeholder="Assignment Title" class="hover teacher-input smaller">');
+    $('#title-holder').replaceWith('<input type="text" placeholder="Assignment Title" class="hover teacher-input smaller" id="teacher-title-box">');
 };
 
 function setPassageText(){
@@ -93,8 +94,22 @@ function clickFunctionality() {
 
   $('#linkButton').click(function () {
       console.log(teacherChanges);
+      // check if title is available
+
+      if ($('#teacher-title-box').val() == '') {
+        $('#teacher-title-warning').html('Please enter a title for your passage.');
+      } else if (!titleAvailable()){
+        $('#teacher-title-warning').html('This title has been taken, please try another.');
+      } else {
+        $('#teacher-title-warning').html('');
+      }
   });
 };
+
+function titleAvailable() {
+  // TODO make call to back end to see if title is taken
+  return true;
+}
 
 // sahir's temp functions
 
