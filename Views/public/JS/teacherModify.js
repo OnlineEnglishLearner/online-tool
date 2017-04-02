@@ -103,7 +103,7 @@ function clickFunctionality() {
         $('#teacher-title-warning').html('This title has been taken, please try another.');
       } else {
         $('#teacher-title-warning').html('');
-        $('#introModal .modal-body').html('<p>Students will be able to access your parts of speach passage at: ' + subRes.link + '</p>');
+        $('#introModal .modal-body').html('<p>Students access link: ' + subRes.link + '</p>');
         $('#introModal').modal('show');
       }
   });
