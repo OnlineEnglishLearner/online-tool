@@ -5,4 +5,6 @@ $( document ).ready(function(){
     $(this).removeClass();
     $(this).addClass('active');
   });
+
+  var passageTitle = window.location.hash.substring(1);
 });
