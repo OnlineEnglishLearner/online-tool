@@ -7,7 +7,14 @@ public class ProjectController : ApiController
     [ActionName("Suggestions")]
     public async Task<ReturnModel> GetSuggestions([FromBody] string text)
     {
-        return await SQLDatabase.tryMSCS(text);
+        return await MSCG.MSCSSuggestions(text);
+    }
+
+    [HttpPost]
+    [ActionName("NoSuggestions")]
+    public ReturnModel GetNoSuggestions([FromBody] string text)
+    {
+        return MSCG.MSCSNoSuggestions(text);
     }
 
     [HttpPost]

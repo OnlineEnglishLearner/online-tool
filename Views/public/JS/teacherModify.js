@@ -4,8 +4,6 @@
 
 $( document ).ready(function(){
 
-  setPassageText();
-
   $('.nav-pills>li').click(function(){
     $('.nav-pills>li').removeClass();
     $('.nav-pills>li').addClass('col-md-10 col-xs-10');
@@ -15,6 +13,77 @@ $( document ).ready(function(){
     $('.word.' + $(this).children('a').attr('data-pos')).addClass('style');
   });
 
+
+
+  $('#linkButton').click(function () {
+      console.log(teacherChanges);
+  });
+
+  $('#teacher-modify-box').replaceWith('<div class="loader" id="loader"></div>');
+  $('#teacher-title-box').replaceWith('<div id="title-holder"></div>');
+
+  setPassageText();
+});
+
+var teacherChanges = [];
+
+function removeLoader() {
+    $('#loader').replaceWith('<p class="teacher-input" id="teacher-modify-box"></p>');
+    $('#title-holder').replaceWith('<input type="text" placeholder="Assignment Title" class="hover teacher-input smaller">');
+};
+
+function setPassageText(){
+    if (readCookie('useMS') == 'true') {
+        setTimeout(function () {
+            removeLoader();
+            var MSSug = getMSSuggestions(readCookie('inputText'));
+            $('#teacher-modify-box').html(MSSug.HTML);
+
+            clickFunctionality();
+        }, 2000);
+  } else {
+    removeLoader();
+    $('#teacher-modify-box').html(getMSNOSuggestions(readCookie('inputText')).HTML);
+
+    clickFunctionality();
+  }
+}
+
+function getMSSuggestions(inputText){
+  // TODO actually make a call to the server with the input text to get the MS Suggestions
+  return exampleResult();
+};
+
+function getMSNOSuggestions(inputText){
+  return exampleNSResult();
+};
+
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+};
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+};
+
+function eraseCookie(name) {
+	createCookie(name,"",-1);
+};
+
+function clickFunctionality() {
   $('.word').click(function(){
     var curActive = $('.nav-pills>li.active').children('a').attr('data-pos');
     if($(this).hasClass(curActive)){
@@ -27,49 +96,7 @@ $( document ).ready(function(){
       teacherChanges.push({id: $(this).attr('id'), action: 'add', pos: curActive});
     }
   });
-});
-
-var teacherChanges = [];
-
-function setPassageText(){
-  if(readCookie('useMS') == 'true'){
-    var MSSug = getMSSuggestions(readCookie('inputText'));
-    $('#teacher-modify-box').html(MSSug.HTML);
-  } else {
-    $('#teacher-modify-box').html(readCookie('inputText'));
-  }
-}
-
-function getMSSuggestions(inputText){
-  // TODO actually make a call to the server with the input text to get the MS Suggestions
-  return exampleResult();
-}
-
-function createCookie(name,value,days) {
-	if (days) {
-		var date = new Date();
-		date.setTime(date.getTime()+(days*24*60*60*1000));
-		var expires = "; expires="+date.toGMTString();
-	}
-	else var expires = "";
-	document.cookie = name+"="+value+expires+"; path=/";
-}
-
-function readCookie(name) {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') c = c.substring(1,c.length);
-		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-	}
-	return null;
-}
-
-function eraseCookie(name) {
-	createCookie(name,"",-1);
-}
-
+};
 
 // sahir's temp functions
 
@@ -88,8 +115,16 @@ function exampleResult() {
 
     return { Content: wordObjs, HTML: exampleHTML };
 };
-var exampleHTML = '<span id="0" class="word unknown">Hello</span> <span id="1" class="word noun">everyone,</span> <span id="2" class="word unknown">my</span> <span id="3" class="word noun">name</span> <span id="4" class="word verb">is</span> <span id="5" class="word noun">Alexander.</span> ';
 
+// no suggestion
+function exampleNSResult() {
+  var res = exampleResult();
+  res.HTML = exampleNoSuggestionHTML;
+  return res;
+};
+
+var exampleHTML = '<span id="0" class="word unknown">Hello</span> <span id="1" class="word noun">everyone,</span> <span id="2" class="word unknown">my</span> <span id="3" class="word noun">name</span> <span id="4" class="word verb">is</span> <span id="5" class="word noun">Alexander.</span> ';
+var exampleNoSuggestionHTML = '<span id="0" class="word">Hello</span> <span id="1" class="word">everyone,</span> <span id="2" class="word">my</span> <span id="3" class="word">name</span> <span id="4" class="word">is</span> <span id="5" class="word">Alexander.</span>';
 
 function demask(mask) {
     var indices = [];

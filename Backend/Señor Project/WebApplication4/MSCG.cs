@@ -1,12 +1,55 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 
 public class MSCG
 {
     // reference: https://www.microsoft.com/cognitive-services/en-us/linguistic-analysis-api/documentation/POS-tagging
     private static string[] wildTags = { "$", "``", "\"", "(", ")", ",", "--", ".", ":" };
-    
+
+    public static async Task<ReturnModel> MSCSSuggestions(string text)
+    {
+        var client = new HttpClient();
+
+        // Request headers
+        client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", Credentials.SubscriptionKey);
+        var uri = "https://westus.api.cognitive.microsoft.com/linguistics/v1.0/analyze";
+
+        // Request body
+        string analyzeText = text;
+        byte[] byteData = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(MSCG.GenerateRequest(analyzeText))); // "{ \"language\" : \"en\", \"analyzerIds\" : [\"4fa79af1-f22c-408d-98bb-b7d7aeef7f04\"], \"text\" : \"" + analyzeText + "\"}");
+
+        using (var content = new ByteArrayContent(byteData))
+        {
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var response = await client.PostAsync(uri, content);
+            var contents = await response.Content.ReadAsStringAsync();
+
+            MSCGJson[] son = JsonConvert.DeserializeObject<MSCGJson[]>(contents);
+            MSCGJson daughter = son[0];
+
+            return Handle(text, daughter);
+        }
+    }
+
+    public static ReturnModel MSCSNoSuggestions(string text)
+    {
+        string[] originalWords = text.Split(' ');
+        int wordIndex = 0;
+
+        Word[][] words = new Word[1][];
+        words[0] = new Word[originalWords.Length];
+
+        for(int i = 0; i < originalWords.Length; ++i)
+            words[0][i] = new Word(originalWords[i], null, -1, null, wordIndex++);
+
+        return new ReturnModel(words, GenerateHTML(words, false));
+    }
+
     public static ReturnModel Handle(string text, MSCGJson son)
     {
         string[][] sentences = son.result;
@@ -23,17 +66,14 @@ public class MSCG
             list = new List<Word>();
 
             foreach (string j in sentences[i])
-            {
                 if (!isMSCGSymbol(j))
-                {
                     list.Add(new Word(originalSentences[originIndex], POSType(j), syllableIndices(originalSentences[originIndex]), Syllable.Syllabify(originalSentences[originIndex++]), wordIndex++));
-                }
-            }
+             
 
             postags[i] = list.ToArray();
         }
 
-        return new ReturnModel(postags, GenerateHTML(postags));
+        return new ReturnModel(postags, GenerateHTML(postags, true));
     }
 
     private static int syllableIndices(string text)
@@ -87,14 +127,17 @@ public class MSCG
         return "" + pos;
     }
 
-    public static string GenerateHTML(Word[][] text)
+    public static string GenerateHTML(Word[][] text, bool suggestions)
     {
         StringBuilder html = new StringBuilder();
        
         foreach(Word[] sentence in text)
             foreach(Word word in sentence)
-                html.Append("<span id=\"" + word.Index + "\" class=\"word " + word.POS.ToLower() + "\">" + word.Value + "</span> ");
-       
+                if(suggestions)
+                    html.Append("<span id=\"" + word.Index + "\" class=\"word " + word.POS.ToLower() + "\">" + word.Value + "</span> ");
+                else
+                    html.Append("<span id=\"" + word.Index + "\" class=\"word\">" + word.Value + "</span> ");
+
         return html.ToString();
     }
 
