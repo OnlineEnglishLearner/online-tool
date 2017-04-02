@@ -5,4 +5,7 @@ $( document ).ready(function(){
     $(this).removeClass();
     $(this).addClass('active');
   });
+
+  var h = window.location.hash;
+  console.log(h);
 });
