@@ -95,7 +95,7 @@ function clickFunctionality() {
   $('#linkButton').click(function () {
       console.log(teacherChanges);
       passageTitle = $('#teacher-title-box').val();
-      var subRes = {avail: true, link: 'www.google.com'}; // TODO Sahirs specicial sauce. returns link if avialbe, or false if title not availble
+      var subRes = {avail: true, link: '<a href="localhost:3000/student/studentView.html#' + passageTitle + '" target="_blank">localhost:3000/student/studentView.html#' + passageTitle + '</a>'}; // TODO Sahirs specicial sauce. returns link if avialbe, or false if title not availble
 
       if (passageTitle == '') {
         $('#teacher-title-warning').html('Please enter a title for your passage.');
@@ -103,10 +103,9 @@ function clickFunctionality() {
         $('#teacher-title-warning').html('This title has been taken, please try another.');
       } else {
         $('#teacher-title-warning').html('');
-        // TODO show link to teacher
+        $('#introModal .modal-body').html('<p>Students will be able to access your parts of speach passage at: ' + subRes.link + '</p>');
+        $('#introModal').modal('show');
       }
-
-
   });
 };
 
