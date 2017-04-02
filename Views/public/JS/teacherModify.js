@@ -4,21 +4,6 @@
 
 $( document ).ready(function(){
 
-  $('.nav-pills>li').click(function(){
-    $('.nav-pills>li').removeClass();
-    $('.nav-pills>li').addClass('col-md-10 col-xs-10');
-    $(this).removeClass();
-    $(this).addClass('active');
-    $('.word').removeClass('style');
-    $('.word.' + $(this).children('a').attr('data-pos')).addClass('style');
-  });
-
-
-
-  $('#linkButton').click(function () {
-      console.log(teacherChanges);
-  });
-
   $('#teacher-modify-box').replaceWith('<div class="loader" id="loader"></div>');
   $('#teacher-title-box').replaceWith('<div id="title-holder"></div>');
 
@@ -84,6 +69,15 @@ function eraseCookie(name) {
 };
 
 function clickFunctionality() {
+  $('.nav-pills>li').click(function(){
+    $('.nav-pills>li').removeClass();
+    $('.nav-pills>li').addClass('col-md-10 col-xs-10');
+    $(this).removeClass();
+    $(this).addClass('active');
+    $('.word').removeClass('style');
+    $('.word.' + $(this).children('a').attr('data-pos')).addClass('style');
+  });
+
   $('.word').click(function(){
     var curActive = $('.nav-pills>li.active').children('a').attr('data-pos');
     if($(this).hasClass(curActive)){
@@ -95,6 +89,10 @@ function clickFunctionality() {
       $(this).addClass('word style ' + curActive);
       teacherChanges.push({id: $(this).attr('id'), action: 'add', pos: curActive});
     }
+  });
+
+  $('#linkButton').click(function () {
+      console.log(teacherChanges);
   });
 };
 
