@@ -77,9 +77,24 @@ public class MSCG
         return new ReturnModel(postags, GenerateHTML(postags, true));
     }
 
-    public static void processChanges(ChangeModel model)
+    public static bool processChanges(ChangeModel model)
     {
-        return;
+        foreach(TeacherChange change in model.Changes) {
+            int id = int.Parse(change.id);
+
+            int sentence = 0;
+            int helper = id;
+
+            while (helper > model.RModel.Content[sentence].Length-1)
+                helper -= model.RModel.Content[sentence++].Length;
+
+            if (change.action.Equals("add"))
+                model.RModel.Content[sentence][helper].POS = POSType(change.pos);
+            else
+                model.RModel.Content[sentence][helper].POS = POSType("Unknown");
+        }
+
+        return SQLDatabase.addPassage(model.Title, GenerateHTML(model.RModel.Content, true));
     }
 
     private static int syllableIndices(string text)
@@ -115,16 +130,19 @@ public class MSCG
     private static string POSType(string candidate)
     {
         // Things like proper nouns are 'NNP' & past tense verbs are 'VBD' 
-        candidate = candidate.Substring(0, 2);
+        candidate = candidate.ToUpper().Substring(0, 2);
 
         PartOfSpeech pos;
         
         switch (candidate)
         {
+            case "NO":
             case "NN": pos = PartOfSpeech.Noun; break;
 
+            case "VE":
             case "VB": pos = PartOfSpeech.Verb; break;
 
+            case "AD":
             case "JJ": pos = PartOfSpeech.Adjective; break;
 
             default: pos = PartOfSpeech.Unknown; break;

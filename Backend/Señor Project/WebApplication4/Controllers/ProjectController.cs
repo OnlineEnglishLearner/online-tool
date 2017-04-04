@@ -18,17 +18,16 @@ public class ProjectController : ApiController
     }
 
     [HttpPost]
-    [ActionName("AddPassage")]
-    public bool AddPassage([FromBody] PassageModel model)
+    [ActionName("ProcessChanges")]
+    public bool ProcessChanges([FromBody] ChangeModel model)
     {
-        return SQLDatabase.addPassage(model.Title, model.Content);
+        return MSCG.processChanges(model);
     }
 
     [HttpPost]
-    [ActionName("ProcessChanges")]
-    public string ProcessChanges([FromBody] ChangeModel model)
+    [ActionName("GetPassage")]
+    public string GetPassage([FromBody] string title)
     {
-        MSCG.processChanges(model);
-        return "Title";
+        return SQLDatabase.getPassage(title);
     }
 }
