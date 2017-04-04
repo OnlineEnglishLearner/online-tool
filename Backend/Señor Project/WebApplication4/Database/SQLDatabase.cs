@@ -68,6 +68,47 @@ public class SQLDatabase
         return false;
     }
 
+    public static bool titleExists(string title)
+    {
+        try
+        {
+            if (connection.State == ConnectionState.Closed)
+            {
+
+                connection.Open();
+
+                title = title.Replace("'", "\\'");
+
+
+                int passageCount = 0;
+                query = "SELECT COUNT(*) FROM Passages WHERE title = '" + title + "'";
+                cmd = new MySqlCommand(query, connection);
+
+                object result = cmd.ExecuteScalar();
+
+                if (result != null)
+                    passageCount = Convert.ToInt32(result);
+                else
+                    return false;
+
+                // title already taken
+                return passageCount == 0;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine("Error: {0}", e.ToString());
+            returnString = null;
+        }
+        finally
+        {
+            if (connection != null)
+                connection.Close();
+        }
+
+        return false;
+    }
+
     public static string getPassage(string title)
     {
         try
