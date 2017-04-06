@@ -39,5 +39,18 @@ function clickFunctionality() {
         $('.nav-pills>li').addClass('col-md-10 col-xs-10');
         $(this).removeClass();
         $(this).addClass('active');
+        $('.word').removeClass('style');
+        $('.word.' + $(this).children('a').attr('data-pos')).addClass('style');
+    });
+
+    $('.word').click(function () {
+        var curActive = $('.nav-pills>li.active').children('a').attr('data-pos');
+        if ($(this).hasClass(curActive)) {
+            $(this).removeClass();
+            $(this).addClass('word');
+        } else {
+            $(this).removeClass();
+            $(this).addClass('word style ' + curActive);
+        }
     });
 };

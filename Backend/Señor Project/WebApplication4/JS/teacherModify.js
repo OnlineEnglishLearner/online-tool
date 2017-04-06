@@ -4,14 +4,18 @@
 
 $( document ).ready(function(){
 
-  $('#teacher-modify-box').replaceWith('<div class="loader" id="loader"></div>');
-  $('#teacher-title-box').replaceWith('<div id="title-holder"></div>');
+  showLoader();
 
   setPassageText();
 });
 
 var teacherChanges = [];
 var returnModel = {};
+
+function showLoader() {
+    $('#teacher-modify-box').replaceWith('<div class="loader" id="loader"></div>');
+    $('#teacher-title-box').replaceWith('<div id="title-holder"></div>');
+};
 
 function removeLoader() {
     $('#loader').replaceWith('<p class="teacher-input" id="teacher-modify-box"></p>');
@@ -63,6 +67,8 @@ function sendChanges() {
     } else {
         var changeObj = { RModel: returnModel, Changes: teacherChanges, Title: title };
 
+        showLoader();
+
         $.ajax({
             url: "api/Project/ProcessChanges",
             beforeSend: function (xhrObj) {
@@ -76,6 +82,7 @@ function sendChanges() {
         .done(function (data) {
             console.log(data);
             subRes.avail = data;
+            removeLoader();
             if (!subRes.avail) {
                 $('#teacher-title-warning').html('This title has been taken, please try another.');
             } else {

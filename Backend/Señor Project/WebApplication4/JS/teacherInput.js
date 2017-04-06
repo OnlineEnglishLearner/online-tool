@@ -1,72 +1,54 @@
+var debug = true;
 
-$(document).ready(function(){
-  $('#introModal').modal('show');
+$(document).ready(function () {
 
-  $('#submitButton').click(function () {
-      var input = $('#teacherInput').val();
+    $('#submitButton').click(function () {
+        var inputText = $('#teacherInput').val();
+        var useMS = $('#checkboxFiveInput').is(':checked');
 
-      console.log("firing");
-  
-      $.ajax({
-          url: "api/Project/Suggestions",
-          beforeSend: function (xhrObj) {
-              // Request headers
-              xhrObj.setRequestHeader("Content-Type", "application/json");
-          },
-          type: "POST",
-          // Request body
-          data: JSON.stringify(input),
-      })
-        .done(function (data) {
-            $('#teacherInput').replaceWith(data.HTML);
-            console.log(data);
-            console.log(data.HTML);
-            console.log(demask(data.Content[0][0].SyllableIndices));
-        })
-        .fail(function () {
-            alert("error");
-        });       
-  });  
-});
-
-function demask(mask) {
-    var indices = [];
-    var i = 0;
-
-    while(mask > 0) {
-        if( (mask & 1) != 0)
-            indices.push(i);
-
-        mask >>= 1;
-        ++i;
-    }
-
-    return indices;
-};
-
-
-
-//    post('teacherModify.html', { name: 'Hello' });
-/*
-function post(path, parameters) {
-    var form = $('<form></form>');
-
-    form.attr("method", "post");
-    form.attr("action", path);
-
-    $.each(parameters, function (key, value) {
-        var field = $('<input></input>');
-
-        field.attr("type", "hidden");
-        field.attr("name", key);
-        field.attr("value", value);
-
-        form.append(field);
+        createCookie('inputText', inputText, 1);
+        createCookie('useMS', useMS, 1);
+        window.location = "./teacherModify.html";
+    });
+    $('.checkboxLabel').click(function () {
+        var status = $('#checkboxFiveInput').is(':checked');
+        $('.checkboxFive input[type=checkbox]').prop("checked", !status);
     });
 
-    // The form needs to be a part of the document in
-    // order for us to be able to submit it.
-    $(document.body).append(form);
-    form.submit();
-};
-*/
+    if (debug) {
+        $('.footer').click(function () {
+            eraseCookie('newUser');
+            console.log('Available cookies: ' + document.cookie);
+        });
+    }
+
+    if (readCookie('newUser') != 'false') {
+        createCookie('newUser', false, 7);
+        $('#introModal').modal('show');
+    }
+});
+
+function createCookie(name, value, days) {
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        var expires = "; expires=" + date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    createCookie(name, "", -1);
+}
