@@ -1,4 +1,4 @@
-var debug = true;
+var AlexDebug = true;
 
 $(document).ready(function () {
 
@@ -15,7 +15,7 @@ $(document).ready(function () {
         $('.checkboxFive input[type=checkbox]').prop("checked", !status);
     });
 
-    if (debug) {
+    if (AlexDebug) {
         $('.footer').click(function () {
             eraseCookie('newUser');
             console.log('Available cookies: ' + document.cookie);

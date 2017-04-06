@@ -1,6 +1,4 @@
-// TODO create an array that will hold all the changes a teacher makes.
-// Every change will be pushed to the end of the array with the index of the
-// word and what the change was (ie, removed verb. ie, added noun)
+var AlexDebug = true;
 
 $( document ).ready(function(){
 

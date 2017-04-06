@@ -1,3 +1,5 @@
+var AlexDebug = true;
+
 $(document).ready(function () {
 
     var passageTitle = window.location.hash.substring(1);
