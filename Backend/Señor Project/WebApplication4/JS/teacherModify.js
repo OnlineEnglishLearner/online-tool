@@ -1,4 +1,4 @@
-var AlexDebug = true;
+﻿var AlexDebug = true;
 
 $( document ).ready(function(){
 
@@ -31,28 +31,40 @@ function setPassageText() {
 function getMSSuggestions(inputText, useSuggestions) {
     console.log(inputText);
 
-    var targetUrl = useSuggestions ? "Suggestions" : "NoSuggestions";
-
-    $.ajax({
-        url: "api/Project/" + targetUrl,
-        beforeSend: function (xhrObj) {
-            // Request headers
-            xhrObj.setRequestHeader("Content-Type", "application/json");
-        },
-        type: "POST",
-        // Request body
-        data: JSON.stringify(inputText),
-    })
-        .done(function (data) {
-            returnModel = data;
+    if (AlexDebug) {
+        setTimeout(function () {
+            returnModel = exampleResult();
             console.log(returnModel);
             removeLoader();
-            $('#teacher-modify-box').html(data.HTML);
+            $('#teacher-modify-box').html(returnModel.HTML);
             clickFunctionality();
-        })
-        .fail(function () {
-            alert("error");
         });
+    }
+    else {
+
+        var targetUrl = useSuggestions ? "Suggestions" : "NoSuggestions";
+
+        $.ajax({
+            url: "api/Project/" + targetUrl,
+            beforeSend: function (xhrObj) {
+                // Request headers
+                xhrObj.setRequestHeader("Content-Type", "application/json");
+            },
+            type: "POST",
+            // Request body
+            data: JSON.stringify(inputText),
+        })
+            .done(function (data) {
+                returnModel = data;
+                console.log(returnModel);
+                removeLoader();
+                $('#teacher-modify-box').html(returnModel.HTML);
+                clickFunctionality();
+            })
+            .fail(function () {
+                alert("error");
+            });
+    }
 };
 
 function sendChanges() {
@@ -67,23 +79,9 @@ function sendChanges() {
 
         showLoader();
 
-        $.ajax({
-            url: "api/Project/ProcessChanges",
-            beforeSend: function (xhrObj) {
-                // Request headers
-                xhrObj.setRequestHeader("Content-Type", "application/json");
-            },
-            type: "POST",
-            // Request body
-            data: JSON.stringify(changeObj),
-        })
-        .done(function (data) {
-            console.log(data);
-            subRes.avail = data;
-            removeLoader();
-            if (!subRes.avail) {
-                $('#teacher-title-warning').html('This title has been taken, please try another.');
-            } else {
+        if (AlexDebug) {
+            setTimeout(function () {
+                removeLoader();
                 $('#teacher-title-warning').html(subRes.link);
                 var selected = $('.steps.selected');
                 selected.removeClass(); selected.addClass('col-md-10 col-md-offset-1 steps');
@@ -91,11 +89,37 @@ function sendChanges() {
 
                 $('#introModal .modal-body').html('<p>Students access link: ' + subRes.link + '</p>');
                 $('#introModal').modal('show');
-            }
-        })
-        .fail(function () {
-            alert("error");
-        });
+            }, 1000);
+        }
+        else {
+
+            $.ajax({
+                url: "api/Project/ProcessChanges",
+                beforeSend: function (xhrObj) {
+                    // Request headers
+                    xhrObj.setRequestHeader("Content-Type", "application/json");
+                },
+                type: "POST",
+                // Request body
+                data: JSON.stringify(changeObj),
+            })
+            .done(function (data) {
+                console.log(data);
+                subRes.avail = data;
+                removeLoader();
+                if (!subRes.avail) {
+                    $('#teacher-title-warning').html('This title has been taken, please try another.');
+                } else {
+                    $('#teacher-title-warning').html(subRes.link);
+                    var selected = $('.steps.selected');
+                    selected.removeClass(); selected.addClass('col-md-10 col-md-offset-1 steps');
+                    $('.steps').eq(2).addClass('selected');
+                }
+            })
+            .fail(function () {
+                alert("error");
+            });
+        }
     }
 };
 
@@ -152,3 +176,31 @@ function readCookie(name) {
 function eraseCookie(name) {
     createCookie(name, "", -1);
 };
+
+
+// DEBUG Functions
+function wordObj(pos, syllabifiedVersion, syllableIndices, value) {
+    return { POS: pos, SyllabifiedVersion: syllabifiedVersion, SyllableIndices: syllableIndices, Value: value };
+};
+
+function exampleResult() {
+    var wordObjs = [];
+    wordObjs.push(wordObj('unknown', 'Hel∙lo', 8, 'Hello', 0));
+    wordObjs.push(wordObj('noun', '"e∙ver∙y∙one,"', 162, 'everyone,', 1));
+    wordObjs.push(wordObj('unknown', 'my', 0, 'my', 2));
+    wordObjs.push(wordObj('noun', 'name', 0, 'name', 3));
+    wordObjs.push(wordObj('verb', 'is', 0, 'is', 4));
+    wordObjs.push(wordObj('noun', 'Al∙ex∙an∙der.', 292, 'Alexander.', 5));
+
+    return { Content: wordObjs, HTML: exampleHTML };
+};
+
+// no suggestion
+function exampleNSResult() {
+    var res = exampleResult();
+    res.HTML = exampleNoSuggestionHTML;
+    return res;
+};
+
+var exampleHTML = '<span id="0" class="word unknown">Hello</span> <span id="1" class="word noun">everyone,</span> <span id="2" class="word unknown">my</span> <span id="3" class="word noun">name</span> <span id="4" class="word verb">is</span> <span id="5" class="word noun">Alexander.</span> ';
+var exampleNoSuggestionHTML = '<span id="0" class="word">Hello</span> <span id="1" class="word">everyone,</span> <span id="2" class="word">my</span> <span id="3" class="word">name</span> <span id="4" class="word">is</span> <span id="5" class="word">Alexander.</span>';
