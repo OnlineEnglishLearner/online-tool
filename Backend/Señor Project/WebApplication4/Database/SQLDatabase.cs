@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 public class SQLDatabase
 {
@@ -17,9 +18,18 @@ public class SQLDatabase
     static MySqlConnection connection = new MySqlConnection(cname);
     static string[] returnString;
     static string contentString;
+
+    static Cache cache = new Cache();
     
     public static bool addPassage(string title, string content)
     {
+        if (cache.ContainsKey(title))
+            return false;
+
+        cache.Add(title, content);
+
+        return true;
+        /*
         try
         {
             if (connection.State == ConnectionState.Closed)
@@ -65,7 +75,7 @@ public class SQLDatabase
                 connection.Close();
         }
 
-        return false;
+        return false;*/
     }
 
     public static bool titleExists(string title)
@@ -111,6 +121,15 @@ public class SQLDatabase
 
     public static string getPassage(string title)
     {
+        string res;
+
+        if (cache.ContainsKey(title))
+            res = cache.Get(title);
+        else
+            res = "Title does not exist";
+
+        return res;
+        /*
         try
         {
             if (connection.State == ConnectionState.Closed)
@@ -157,5 +176,6 @@ public class SQLDatabase
         }
 
         return contentString;
+    */
     }
 }
