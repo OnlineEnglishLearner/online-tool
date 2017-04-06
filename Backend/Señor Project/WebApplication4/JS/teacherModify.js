@@ -84,7 +84,11 @@ function sendChanges() {
             if (!subRes.avail) {
                 $('#teacher-title-warning').html('This title has been taken, please try another.');
             } else {
-                $('#teacher-title-warning').html('');
+                $('#teacher-title-warning').html(subRes.link);
+                var selected = $('.steps.selected');
+                selected.removeClass(); selected.addClass('col-md-10 col-md-offset-1 steps');
+                $('.steps').eq(2).addClass('selected');
+
                 $('#introModal .modal-body').html('<p>Students access link: ' + subRes.link + '</p>');
                 $('#introModal').modal('show');
             }
