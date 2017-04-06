@@ -5,13 +5,13 @@ public class PassageModel
 {
     public PassageModel(string title, string content)
     {
-        this.title = title;
-        this.content = content;
+        this.Title = title;
+        this.Content = content;
     }
 
     [DataMember]
-    public string title { get; set; }
+    public string Title { get; set; }
 
     [DataMember]
-    public string content { get; set; }
+    public string Content { get; set; }
 }
