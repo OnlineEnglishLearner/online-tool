@@ -91,6 +91,7 @@ function sendChanges() {
                 selected.removeClass(); selected.addClass('col-md-10 col-md-offset-1 steps');
                 $('.steps').eq(2).addClass('selected');
 
+                // these two lines only occur if the title was available
                 $('#teacher-title-box').replaceWith('<p class="teacher-input smaller no-text-change" id="teacher-title-box">' + teacherTitle + '</p>');
                 $('#linkButton').attr("disabled","disabled");
 
