@@ -115,6 +115,16 @@ body {
   text-shadow: none;
 }
 
+.process-btn:hover {
+  background: #9f9f9f;
+  color: #545454;
+}
+
+.process-btn:focus {
+  background: #ff7d3d;
+  color: #ffffff;
+}
+
 .checkboxLabel {
   flex-basis: 10em;
   flex-grow: 3;
@@ -230,6 +240,14 @@ input[type=checkbox] {
 
 .style.verb {
     color: #ff7d3d;
+}
+
+a:link {
+  color: #dddddd;
+}
+
+.modal a:link {
+  color: inherit;
 }
 
 .loader {

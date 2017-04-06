@@ -9,14 +9,18 @@ $( document ).ready(function(){
 
 var teacherChanges = [];
 var returnModel = {};
+var teacherPassage = '';
+var teacherTitle = '';
 
 function showLoader() {
+    teacherPassage = $('#teacher-modify-box').html();
+    teacherTitle = $('#teacher-title-box').val();
     $('#teacher-modify-box').replaceWith('<div class="loader" id="loader"></div>');
     $('#teacher-title-box').replaceWith('<div id="title-holder"></div>');
 };
 
 function removeLoader() {
-    $('#loader').replaceWith('<p class="teacher-input" id="teacher-modify-box"></p>');
+    $('#loader').replaceWith('<p class="teacher-input no-text-change" id="teacher-modify-box">' + teacherPassage + '</p>');
     $('#title-holder').replaceWith('<input type="text" placeholder="Assignment Title" class="hover teacher-input smaller" id="teacher-title-box">');
 };
 
@@ -76,7 +80,7 @@ function sendChanges() {
         $('#teacher-title-warning').html('Please enter a title for your passage.');
     } else {
         var changeObj = { RModel: returnModel, Changes: teacherChanges, Title: title };
-
+        $('#teacher-title-warning').html('');
         showLoader();
 
         if (AlexDebug) {
@@ -86,6 +90,9 @@ function sendChanges() {
                 var selected = $('.steps.selected');
                 selected.removeClass(); selected.addClass('col-md-10 col-md-offset-1 steps');
                 $('.steps').eq(2).addClass('selected');
+
+                $('#teacher-title-box').replaceWith('<p class="teacher-input smaller no-text-change" id="teacher-title-box">' + teacherTitle + '</p>');
+                $('#linkButton').attr("disabled","disabled");
 
                 $('#introModal .modal-body').html('<p>Students access link: ' + subRes.link + '</p>');
                 $('#introModal').modal('show');
@@ -114,6 +121,9 @@ function sendChanges() {
                     var selected = $('.steps.selected');
                     selected.removeClass(); selected.addClass('col-md-10 col-md-offset-1 steps');
                     $('.steps').eq(2).addClass('selected');
+
+                    $('#teacher-title-box').replaceWith('<p class="teacher-input smaller no-text-change" id="teacher-title-box">' + teacherTitle + '</p>');
+                    $('#linkButton').attr("disabled","disabled");
                 }
             })
             .fail(function () {
@@ -124,6 +134,8 @@ function sendChanges() {
 };
 
 function clickFunctionality() {
+    $('.word.noun').addClass('style');
+
     $('.nav-pills>li').click(function () {
         $('.nav-pills>li').removeClass();
         $('.nav-pills>li').addClass('col-md-10 col-xs-10');
