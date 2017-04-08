@@ -74,7 +74,7 @@ function getMSSuggestions(inputText, useSuggestions) {
 function sendChanges() {
 
     var title = $('#teacher-title-box').val();
-    var subRes = { avail: true, link: '<a href="localhost:52349/studentView.html#' + title + '" target="_blank">localhost:52349/studentView.html#' + title + '</a>' }; // TODO Sahirs specicial sauce. returns link if avialbe, or false if title not availble
+    var subRes = { avail: true, link: '<a href="http://localhost:3000/student/studentView.html#' + title + '" target="_blank">https://localhost:52349/studentView.html#' + title + '</a>' };
 
     if (title == '') {
         $('#teacher-title-warning').html('Please enter a title for your passage.');
@@ -118,6 +118,7 @@ function sendChanges() {
                 if (!subRes.avail) {
                     $('#teacher-title-warning').html('This title has been taken, please try another.');
                 } else {
+                    title = $('#teacher-title-box').val();
                     $('#teacher-title-warning').html(subRes.link);
                     var selected = $('.steps.selected');
                     selected.removeClass(); selected.addClass('col-md-10 col-md-offset-1 steps');
@@ -150,11 +151,11 @@ function clickFunctionality() {
         var curActive = $('.nav-pills>li.active').children('a').attr('data-pos');
         if ($(this).hasClass(curActive)) {
             $(this).removeClass();
-            $(this).addClass('word');
+            $(this).addClass('word unknown');
             teacherChanges.push({ id: $(this).attr('id'), action: 'remove', pos: curActive });
         } else {
             $(this).removeClass();
-            $(this).addClass('word style ' + curActive);
+            $(this).addClass('word '+ curActive + ' style');
             teacherChanges.push({ id: $(this).attr('id'), action: 'add', pos: curActive });
         }
     });

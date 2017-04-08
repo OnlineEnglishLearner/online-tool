@@ -12,28 +12,43 @@
 
     <title>ELOT</title>
 </head>
-<body>
+<body class="student">
     <!-- body -->
     <div class="col-md-9 col-md-offset-2 main-container">
-
         <div class="row">
-            <div class="col-md-9 title">
+            <div class="col-md-8 col-md-offset-1 title">
                 <span>English Learner's Online Tool</span>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-md-8 col-md-offset-1 col-xs-8 input-container">
+            <div class="col-md-8 col-md-offset-1 col-xs-8 input-container small">
                 <p class="teacher-input no-text-change" id="student-text"></p>
             </div>
 
             <div class="col-md-3 col-xs-4">
                 <ul class="nav nav-pills nav-stacked">
                     <!-- <li role="presentation" class="active"><a href="#" class="syll">Syllable</a></li> -->
-                    <li role="presentation" class="col-md-10 col-xs-10"><a href="#" class="noun">Noun</a></li>
-                    <li role="presentation" class="col-md-10 col-xs-10"><a href="#" class="verb">Verb</a></li>
-                    <li role="presentation" class="col-md-10 col-xs-10"><a href="#" class="adj">Adjective</a></li>
+                    <li role="presentation" class="active"><a href="#" class="noun" data-pos="noun">Noun</a></li>
+                    <li role="presentation" class="col-md-10 col-xs-10"><a href="#" class="verb" data-pos="verb">Verb</a></li>
+                    <li role="presentation" class="col-md-10 col-xs-10"><a href="#" class="adj" data-pos="adjective">Adjective</a></li>
+                    <!-- <li role="presentation" class="col-md-10 col-xs-10"><a href="#" class="unknown" data-pos="unknown">Unknown</a></li> -->
+                    <li role="presentation" class="col-md-10 col-xs-10"><a href="#" class="all" data-pos="all">All Together</a></li>
                 </ul>
+
+                <div class="image-container">
+                  <img src="../images/redX.png" alt="redX" class="image x" style="display: none;">
+                  <img src="../images/greenCheck.png" alt="greenCheck" class="image check" style="display: none;">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-1 process-btn-container">
+                <button type="button" name="button" class="btn btn-default process-btn" id="studentCheck"><strong>Check Answers</strong></button>
+                <button type="button" name="button" class="btn btn-default process-btn" id="studentRestart" style="display: none;"><strong>Start Over</strong></button>
+                <button type="button" name="button" class="btn btn-default process-btn" id="studentRetry"><strong>Try Again</strong></button>
+                <button type="button" name="button" class="btn btn-default process-btn" id="seeAnswers" style="display: none;"><strong>Show Answers</strong></button>
             </div>
         </div>
 
