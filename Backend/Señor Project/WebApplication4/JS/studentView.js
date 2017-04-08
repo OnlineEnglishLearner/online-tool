@@ -146,7 +146,12 @@ function checkAnswers() {
     $('#studentCheck').hide();
     $('#studentRetry').hide();
     numTries = 0;
-  } else $('.image.x').show();
+  } else {
+    $('.image.x').show();
+  }
+  $('.word').click(function(){
+      $('#studentRetry').fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+  });
   $('.nav-pills>li .all').click();
 }
 
