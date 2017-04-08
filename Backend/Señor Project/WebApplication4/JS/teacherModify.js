@@ -126,6 +126,9 @@ function sendChanges() {
 
                     $('#teacher-title-box').replaceWith('<p class="teacher-input smaller no-text-change" id="teacher-title-box">' + teacherTitle + '</p>');
                     $('#linkButton').attr("disabled","disabled");
+
+                    $('#introModal .modal-body').html('<p>Students access link: ' + subRes.link + '</p>');
+                    $('#introModal').modal('show');
                 }
             })
             .fail(function () {

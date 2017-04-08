@@ -42,6 +42,8 @@ function render(title) {
             removeLoader();
             teacherPassage = data;
             $('#student-text').html(data);
+            TPjson = makeJSON($('#student-text'));
+            clearAnswers();
             clickFunctionality();
         })
         .fail(function () {
