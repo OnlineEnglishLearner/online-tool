@@ -1,4 +1,4 @@
-﻿var AlexDebug = true;
+﻿var AlexDebug = false;
 
 $( document ).ready(function(){
 
@@ -74,7 +74,7 @@ function getMSSuggestions(inputText, useSuggestions) {
 function sendChanges() {
 
     var title = $('#teacher-title-box').val();
-    var subRes = { avail: true, link: '<a href="http://localhost:3000/student/studentView.html#' + title + '" target="_blank">https://localhost:52349/studentView.html#' + title + '</a>' };
+    var subRes = { avail: true, link: '<a href="http://localhost:52349/studentView.html#' + title + '" target="_blank">https://localhost:52349/studentView.html#' + title + '</a>' };
 
     if (title == '') {
         $('#teacher-title-warning').html('Please enter a title for your passage.');
